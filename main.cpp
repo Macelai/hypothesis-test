@@ -10,12 +10,15 @@ int main() {
     double confidencelevel = 5;
     double avg = 115;
 
-    printf("-> Test Average \n");
     double a = hypo->testAverage(sampleAvg, sampleStdDev, sampleNumElements, confidencelevel, avg,
                                  hypo->H1Comparition::DIFFERENT);
-    printf("\n   # p=%f", a);
+    printf("    # p = %f\n", a);
 
+    double prop = hypo->testProportion(0.53, 1000, 5, 0.6, hypo->H1Comparition::DIFFERENT);
+    printf("    # p = %f\n", prop);
 
+    double var = hypo->testVariance(18.3, 25, 10, 25, hypo->H1Comparition::LESS_THAN);
+    printf("    # p = %f\n", var);
 
     return 0;
 }
