@@ -6,29 +6,21 @@ void test_AvgTest1();
 void test_AvgTest2();
 void test_PropTest1();
 void test_PropTest2();
+void test_VarTest1();
+void test_VarTest2();
 void check_test(double target, double result);
 
 int main() {
 
-    Hypothesis *hypo = new Hypothesis();
-
-    //test_AvgTest1();
-    //test_AvgTest2();
-    //test_PropTest1();
-    //test_PropTest2();
-
-    double sampleVar = 17.3;
-    unsigned long sampleNumElements = 25;
-    double confidencelevel = 10;
-    double var = 25;
-
-    double v = hypo->testVariance(sampleVar, sampleNumElements, confidencelevel, var,
-                                  hypo->H1Comparition::GREATER_THAN);
-    printf("    # p-value testVariance = %f\n", v);
+    test_AvgTest1();
+    test_AvgTest2();
+    test_PropTest1();
+    test_PropTest2();
+    test_VarTest1();
+    test_VarTest2();
 
     return 0;
 }
-
 
 void test_AvgTest1() {
 
@@ -146,6 +138,66 @@ void test_PropTest2() {
 
     double p = hypo->testProportion(sampleProp, sampleNumElements, confidencelevel, prop,
                                     hypo->H1Comparition::LESS_THAN);
+
+    printf("--- p-value = %f\n", p);
+
+    check_test(expected_value, p);
+
+    delete(hypo);
+}
+
+void test_VarTest1() {
+
+    double expected_value = (0);
+
+    Hypothesis *hypo = new Hypothesis();
+
+    printf("--- Variance Test 1 ---\n");
+
+    double sampleVar = 38;
+    unsigned long sampleNumElements = 25;
+    double confidencelevel = 10;
+    double var = 25;
+
+    printf("- expected result: %f\n", expected_value);
+    printf("- comparition: GREATER_THAN\n");
+    printf("- sample variance: %f\n", sampleVar);
+    printf("- sample number of elements: %lu\n", sampleNumElements);
+    printf("- confidence level: %f\n", (confidencelevel/100));
+    printf("- variance: %f\n", var);
+
+    double p = hypo->testVariance(sampleVar, sampleNumElements, confidencelevel, var,
+                                    hypo->H1Comparition::GREATER_THAN);
+
+    printf("--- p-value = %f\n", p);
+
+    check_test(expected_value, p);
+
+    delete(hypo);
+}
+
+void test_VarTest2() {
+
+    double expected_value = (0);
+
+    Hypothesis *hypo = new Hypothesis();
+
+    printf("--- Variance Test 2 ---\n");
+
+    double sampleVar = 24.2;
+    unsigned long sampleNumElements = 101;
+    double confidencelevel = 10;
+    double var = 25;
+
+    printf("- expected result: %f\n", expected_value);
+    printf("- comparition: GREATER_THAN\n");
+    printf("- sample variance: %f\n", sampleVar);
+    printf("- sample number of elements: %lu\n", sampleNumElements);
+    printf("- confidence level: %f\n", (confidencelevel/100));
+    printf("- variance: %f\n", var);
+
+    double p = hypo->testVariance(sampleVar, sampleNumElements, confidencelevel, var,
+                                    hypo->H1Comparition::GREATER_THAN);
 
     printf("--- p-value = %f\n", p);
 
