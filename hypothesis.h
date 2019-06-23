@@ -11,11 +11,6 @@ public:
         GREATER_THAN = 3
     };
 
-    enum H0Test {
-        AVERAGE,
-        PROPORTION
-    };
-
     Hypothesis();
 
     double testAverage(double sampleAvg, double sampleStdDev, unsigned long sampleNumElements, double confidencelevel,
@@ -27,8 +22,11 @@ public:
     double testVariance(double sampleVar, unsigned long sampleNumElements, double confidencelevel, double var,
                         H1Comparition comp);
 
-    void testHypothesisNull(H1Comparition comp, double alpha, double z_calc, H0Test test);
+    void testHypothesisNull(H1Comparition comp, double alpha, double z_calc);
 
+    double Exp(double x);
+
+    double ChiSquare(double x, int df);
 };
 
 
