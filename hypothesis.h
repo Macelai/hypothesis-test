@@ -12,8 +12,8 @@ public:
     };
 
     enum H0Test {
-        AVERAGE = 'Media',
-        PROPORTION = 'Proporcao'
+        AVERAGE,
+        PROPORTION
     };
 
     Hypothesis();

@@ -1,6 +1,7 @@
 #include "hypothesis.h"
 #include <math.h>
-#include <boost/math/quadrature/gauss.hpp>
+//#include <boost/math/quadrature/gauss.hpp>
+#include "../boost_1_66_0/boost/math/quadrature/gauss.hpp"
 using namespace std;
 
 Hypothesis::Hypothesis() = default;
@@ -9,13 +10,11 @@ double Hypothesis::testAverage(double sampleAvg, double sampleStdDev, unsigned l
                                double confidencelevel, double avg, H1Comparition comp) {
     using namespace boost::math::quadrature;
 
-    printf("\n--- Test Average ---\n");
-
     double stdError = sampleStdDev / sqrt(sampleNumElements);
-    printf("   # stdError=%f ", stdError);
+    //printf("   # stdError=%f ", stdError);
 
     double z_calc = (sampleAvg - avg) / stdError;
-    printf("# z_obs=%f ", z_calc);
+    //printf("# z_obs=%f ", z_calc);
 
     auto f = [](const double &x) {
         double constant = 1 / sqrt(2 * M_PI);
@@ -37,10 +36,8 @@ double Hypothesis::testProportion(double sampleProp, unsigned long sampleNumElem
                                   double prop, H1Comparition comp) {
     using namespace boost::math::quadrature;
 
-    printf("\n--- Test Proportion ---\n");
-
-    double z_cal = (sampleProp - prop) / sqrt((prop * (1 - prop)) / sampleNumElements);
-    printf("   # z_cal = %f\n", z_cal);
+    double z_cal = ((sampleProp - prop) / sqrt((prop * (1 - prop)) / sampleNumElements));
+    //printf("   # z_cal = %f\n", z_cal);
 
     auto f = [](const double &x) {
         double constant = 1 / sqrt(2 * M_PI);
@@ -85,9 +82,9 @@ double Hypothesis::testVariance(double sampleVar, unsigned long sampleNumElement
         double z_critico = cl + alpha_half;
 
         if (q_cal > z_critico) {
-            printf("    # REJEITAR H0 => MEDIA NAO Eh IGUAL A %0.4f NIVEL DE SIGNIFICANCIA\n", alpha);
+            printf("    # REJEITAR H0 => MEDIA NAO Eh IGUAL A %0.4f NIVEL DE SIGNIFICANCIA\n\n", alpha);
         } else {
-            printf("    # ACEITA H0 => MEDIA NAO Eh IGUAL A %0.4f NIVEL DE SIGNIFICANCIA\n", alpha);
+            printf("    # ACEITA H0 => MEDIA NAO Eh IGUAL A %0.4f NIVEL DE SIGNIFICANCIA\n\n", alpha);
         }
 
         return Q;
@@ -95,9 +92,9 @@ double Hypothesis::testVariance(double sampleVar, unsigned long sampleNumElement
     } else if (comp == H1Comparition::LESS_THAN) {
 
         if (-q_cal > -cl) {
-            printf("    # REJEITAR H0 => MEDIA NAO Eh MAIOR IGUAL A %0.4f NIVEL DE SIGNIFICANCIA\n", alpha);
+            printf("    # REJEITAR H0 => MEDIA NAO Eh MAIOR IGUAL A %0.4f NIVEL DE SIGNIFICANCIA\n\n", alpha);
         } else {
-            printf("    # ACEITA H0 => MEDIA NAO Eh MAIOR IGUAL A %0.4f NIVEL DE SIGNIFICANCIA\n", alpha);
+            printf("    # ACEITA H0 => MEDIA NAO Eh MAIOR IGUAL A %0.4f NIVEL DE SIGNIFICANCIA\n\n", alpha);
         }
 
         return Q;
@@ -105,9 +102,9 @@ double Hypothesis::testVariance(double sampleVar, unsigned long sampleNumElement
     } else {
 
         if (q_cal > cl) {
-            printf("    # REJEITAR H0 => MEDIA NAO Eh MENOR IGUAL A %0.4f NIVEL DE SIGNIFICANCIA\n", alpha);
+            printf("    # REJEITAR H0 => MEDIA NAO Eh MENOR IGUAL A %0.4f NIVEL DE SIGNIFICANCIA\n\n", alpha);
         } else {
-            printf("    # ACEITA H0 => MEDIA NAO Eh MENOR IGUAL A %0.4f NIVEL DE SIGNIFICANCIA\n", alpha);
+            printf("    # ACEITA H0 => MEDIA NAO Eh MENOR IGUAL A %0.4f NIVEL DE SIGNIFICANCIA\n\n", alpha);
         }
 
         return Q;
@@ -117,34 +114,34 @@ double Hypothesis::testVariance(double sampleVar, unsigned long sampleNumElement
 void Hypothesis::testHypothesisNull(H1Comparition comp, double alpha, double z_calc, H0Test test){
 
     double z_crit = 1 - alpha;
-    printf("   # z_crit=%f ", z_crit);
+    //printf("   # z_crit=%f ", z_crit);
 
     if (comp == H1Comparition::DIFFERENT) {
 
         double alpha_half = alpha / 2;
         double z_critico = z_crit + alpha_half;
-        printf("# z_critico=%f ", z_critico);
+        //printf("# z_critico=%f ", z_critico);
 
         if (z_calc > z_critico or z_calc < alpha_half) {
-            printf("\n   # REJEITAR H0 => %d NAO Eh IGUAL A %0.4f NIVEL DE SIGNIFICANCIA", test, alpha);
+            printf("\n   # REJECT H0 => NOT EQUAL WITH %0.4f OF CONFIDENCE LEVEL\n\n", alpha);
         } else {
-            printf("\n   # ACEITA H0 => %d NAO Eh IGUAL A %0.4f NIVEL DE SIGNIFICANCIA", test, alpha);
+            printf("\n   # ACCEPT H0 => EQUAL WITH %0.4f OF CONFIDENCE LEVEL\n\n", alpha);
         }
 
     } else if (comp == H1Comparition::LESS_THAN) {
 
         if (z_calc < alpha) {
-            printf("\n   # REJEITAR H0 => %d NAO Eh MAIOR IGUAL A %0.4f NIVEL DE SIGNIFICANCIA", test, alpha);
+            printf("\n   # REJECT H0 => LESS THAN WITH %0.4f OF CONFIDENCE LEVEL\n\n", alpha);
         } else {
-            printf("\n   # ACEITA H0 => %d NAO Eh MAIOR IGUAL A %0.4f NIVEL DE SIGNIFICANCIA", test, alpha);
+            printf("\n   # ACCEPT H0 => NOT LESS THAN WITH %0.4f OF CONFIDENCE LEVEL\n\n", alpha);
         }
 
     } else {
 
         if (z_calc > z_crit) {
-            printf("\n   # REJEITAR H0 => %d NAO Eh MENOR IGUAL A %0.4f NIVEL DE SIGNIFICANCIA", test, alpha);
+            printf("\n   # REJECT H0 => GREATER THAN WITH %0.4f OF CONFIDENCE LEVEL\n\n", alpha);
         } else {
-            printf("\n   # ACEITA H0 => %d NAO Eh MENOR IGUAL A %0.4f NIVEL DE SIGNIFICANCIA", test, alpha);
+            printf("\n   # ACCEPT H0 => NOT GREATER THAN WITH %0.4f OF CONFIDENCE LEVEL\n\n", alpha);
         }
 
     }
