@@ -1,7 +1,9 @@
 #include "hypothesis.h"
 #include <math.h>
-#include <boost/math/quadrature/gauss.hpp>
-#include <boost/math/distributions/chi_squared.hpp>
+//#include <boost/math/quadrature/gauss.hpp>
+//#include <boost/math/distributions/chi_squared.hpp>
+#include "../boost_1_66_0/boost/math/quadrature/gauss.hpp"
+#include "../boost_1_66_0/boost/math/distributions/chi_squared.hpp"
 using namespace std;
 
 Hypothesis::Hypothesis() = default;

@@ -148,13 +148,13 @@ void test_PropTest2() {
 
 void test_VarTest1() {
 
-    double expected_value = (0);
+    double expected_value = (1-0.6879);
 
     Hypothesis *hypo = new Hypothesis();
 
     printf("--- Variance Test 1 ---\n");
 
-    double sampleVar = 38;
+    double sampleVar = 28;
     unsigned long sampleNumElements = 25;
     double confidencelevel = 10;
     double var = 25;
@@ -178,14 +178,14 @@ void test_VarTest1() {
 
 void test_VarTest2() {
 
-    double expected_value = (0);
+    double expected_value = (1-0.9678);
 
     Hypothesis *hypo = new Hypothesis();
 
     printf("--- Variance Test 2 ---\n");
 
-    double sampleVar = 24.2;
-    unsigned long sampleNumElements = 101;
+    double sampleVar = 28;
+    unsigned long sampleNumElements = 500;
     double confidencelevel = 10;
     double var = 25;
 
