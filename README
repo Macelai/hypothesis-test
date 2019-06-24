@@ -1,0 +1,9 @@
+Grupo 5:
+	    Raul Filho
+		Renato Souza
+		Vinicius Macelai
+
+Para compilar o trabalho, basta instalar a biiblioteca Boost (https://www.boost.org/),
+então irá compilar e executar o trabalho, realizando os testes unitários e printando
+na tela os resultados optidos, todos os testes foram calculados anteriormente na mão e
+seu resultado foi colocado no programa.

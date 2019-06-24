@@ -1,13 +1,17 @@
 #include "hypothesis.h"
 #include <math.h>
-//#include <boost/math/quadrature/gauss.hpp>
-//#include <boost/math/distributions/chi_squared.hpp>
-#include "../boost_1_66_0/boost/math/quadrature/gauss.hpp"
-#include "../boost_1_66_0/boost/math/distributions/chi_squared.hpp"
+#include <boost/math/quadrature/gauss.hpp>
+#include <boost/math/distributions/chi_squared.hpp>
 using namespace std;
 
 Hypothesis::Hypothesis() = default;
 
+
+// Hypothesis test for the avarage, we use the library Boost to integrate the function
+// that corresponds for the Normal Cumulative Distribution Function, we use gaussian
+// quadrature method to integrate passing the lambda function that corresponds to the
+// Normal. We followed "Curso de Planejamento Experimental - FEMEC - UFU" available
+// on Moodle to every step to do.
 double Hypothesis::testAverage(double sampleAvg, double sampleStdDev, unsigned long sampleNumElements,
                                double confidencelevel, double avg, H1Comparition comp) {
     using namespace boost::math::quadrature;
@@ -32,6 +36,8 @@ double Hypothesis::testAverage(double sampleAvg, double sampleStdDev, unsigned l
 
 }
 
+// Really similar to the previous method, we used the same things and followed
+// the document on Moodle.
 double Hypothesis::testProportion(double sampleProp, unsigned long sampleNumElements, double confidencelevel,
                                   double prop, H1Comparition comp) {
     using namespace boost::math::quadrature;
@@ -53,26 +59,27 @@ double Hypothesis::testProportion(double sampleProp, unsigned long sampleNumElem
     return Q;
 }
 
+// This one is different from the rest, following "Curso de estatistica.pdf" on moodle,
+// we need to use chi square method to calculate p-value, so after some research we used
+// an implementation available online.
 double Hypothesis::testVariance(double sampleVar, unsigned long sampleNumElements, double confidencelevel,
                                 double var, H1Comparition comp) {
     using namespace boost::math::quadrature;
 
     int df = (int)sampleNumElements - 1;
     double chi_cal = (df * sampleVar) / var;
-    //printf("chi_cal %f\n", chi_cal);
 
     double chi = ChiSquare(chi_cal, df);
-    //printf("chi %f\n", chi);
 
     double alpha = confidencelevel / 100;
 
     double value_calc = 1 - chi;
-    //printf("value_calc %f", value_calc);
 
     testHypothesisNull(comp, alpha, value_calc);
     return chi;
 }
 
+// Hypothesis test acording to p-value and confidence level and the type of comparation.
 void Hypothesis::testHypothesisNull(H1Comparition comp, double alpha, double value_calc){
 
     double value_critical = 1 - alpha;
@@ -107,8 +114,8 @@ void Hypothesis::testHypothesisNull(H1Comparition comp, double alpha, double val
     }
 }
 
+// Reference: https://jamesmccaffrey.wordpress.com/2010/11/01/programmatically-computing-chi-square-critical-values
 double Hypothesis::ChiSquare(double x, int df) {
-    // Reference: https://jamesmccaffrey.wordpress.com/2010/11/01/programmatically-computing-chi-square-critical-values
     // x = a computed chi-square value
     // df = degrees of freedom
     using namespace boost::math::quadrature;
@@ -175,6 +182,7 @@ double Hypothesis::ChiSquare(double x, int df) {
     }
 }
 
+// Reference: https://jamesmccaffrey.wordpress.com/2010/11/01/programmatically-computing-chi-square-critical-values/
 double Hypothesis::Exp(double x) { // ACM update remark (3)
     if (x < -40.0) // 40.0 is a magic number. ACM update remark (8)
         return 0.0;
