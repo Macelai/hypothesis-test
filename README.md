@@ -1,2 +1,0 @@
-# hypothesis-test
-X3

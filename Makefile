@@ -1,11 +1,4 @@
-CC = gcc
-CFLAGS  = -g -Wall
-TARGET = main
+all:
+	g++ -o exe -std=c++11 -O3 -g *.cpp
+	./exe
 
-all: $(TARGET)
-
-$(TARGET): $(TARGET).cpp
-	$(CC) $(CFLAGS) -o $(TARGET) $(TARGET).cpp
-
-clean:
-	$(RM) $(TARGET)

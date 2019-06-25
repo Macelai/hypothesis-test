@@ -1,0 +1,9 @@
+Grupo 5:
+	Raul Filho
+	Renato Souza
+	Vinicius Macelai
+
+Para compilar o trabalho, basta instalar a biblioteca Boost (https://www.boost.org/),
+executar make, então irá compilar e executar o trabalho, realizando os testes unitários 
+e printando na tela os resultados obtidos. Todos os testes foram calculados anteriormente 
+na mão e seu resultado foi colocado no programa.
